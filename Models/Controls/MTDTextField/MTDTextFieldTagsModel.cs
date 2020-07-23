@@ -38,6 +38,7 @@ namespace Mtd.OrderMaker.Server.Models.Controls.MTDTextField
             this.Type = tags.Type ?? "text";
             this.Value = tags.Value;
             this.Class = tags.Class ?? string.Empty;
+            this.Step = tags.Step ?? string.Empty;
 
             this.IdLabel = $"{Id}-label";
             this.IdHelper = $"{Id}-helper";

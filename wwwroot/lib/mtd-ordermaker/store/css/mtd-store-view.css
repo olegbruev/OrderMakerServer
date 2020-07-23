@@ -125,7 +125,9 @@
   font-size: medium;
 }
 .mtd-store-style-part {
-  padding: 4px 4px 4px 0px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  padding: 8px;
   text-transform: uppercase;
   font-size: small;
   font-weight: bold;

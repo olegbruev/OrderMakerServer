@@ -27,25 +27,21 @@
     }
 }
 
-@switch (ViewBag.TypeStyle)
+
+@await Component.InvokeAsync(typeof(MTDTextField), new MTDTextFieldTags
 {
-    case "Columns":
-        <div class="mtd-store-edit-col-root">
-            <div class="mtd-ui-material-form">
-                <input @if (@Model.MtdFormPartFieldNavigation.Required == 1) {<text>required</text> } placeholder="0.00"
-                type="number" step="0.01" id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id" value="@value" onclick="this.select()" />
-                <label mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="input" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
-                <i class="mtd-ui-text-bottom"></i>
-            </div>
-        </div>
-        break;
-    default:
-        <div class="mtd-ui-material-form">
-            <input @if (@Model.MtdFormPartFieldNavigation.Required == 1) {<text>required</text> } placeholder="0.00"
-                   type="number" step="0.01" min="1" id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id" value="@value" onclick="this.select()" />
-            <label mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="input" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
-            <i class="mtd-ui-text-bottom"></i>
-        </div>
-        break;
-}
+    Id = Model.MtdFormPartFieldNavigation.Id,
+    Name = Model.MtdFormPartFieldNavigation.Id,
+    HelperText = Model.MtdFormPartFieldNavigation.Description,
+    Value = value,
+    Label = Model.MtdFormPartFieldNavigation.Name,
+    Required = Model.MtdFormPartFieldNavigation.Required == 1,
+    MTDTexFieldView = MTDTextFieldViews.Outlined,
+    MaxLength = 32,
+    Placeholder = "0.00",
+    Type = "number",
+    Step = "0.01"
+})
+
+
 

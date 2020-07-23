@@ -209,6 +209,10 @@ textFields.forEach((textField) => {
     new MTDTextField(textField.id)
 });
 
+const selectFields = document.querySelectorAll(".mdc-select");
+selectFields.forEach((selectField) => {
+    new MTDSelectList(selectField.id)
+});
     //document.addEventListener("keydown", (e) => {
     //    if (e.keyCode == 13) {
     //        event.preventDefault();

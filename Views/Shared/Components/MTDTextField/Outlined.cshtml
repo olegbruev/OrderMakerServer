@@ -12,10 +12,10 @@
     }
 }
 <label id="@Model.Id" class="@mainClass">
-    
+
     @await Html.PartialAsync("./_iconLeading.cshtml")
 
-    <input id="@Model.IdInput" class="mdc-text-field__input @Model.Class" type="@Model.Type" 
+    <input id="@Model.IdInput" class="mdc-text-field__input @Model.Class" type="@Model.Type"
            aria-labelledby="@Model.IdLabel"
            name="@Model.Name"
            value="@Model.Value"
@@ -24,7 +24,8 @@
            placeholder="@Model.Placeholder"
            maxlength="@Model.MaxLength"
            pattern="@Model.Pattern"
-           @if (Model.MtdInputClicker) { <text> mtd-input-clicker </text>}
+           @if (Model.Step != string.Empty) { <text> step="@Model.Step" </text> }
+           @if (Model.MtdInputClicker) { <text> mtd-input-clicker </text> }
            @Model.RDAttribute>
 
     @await Html.PartialAsync("./_iconTrailing.cshtml")
@@ -37,5 +38,9 @@
 </label>
 
 @await Html.PartialAsync("./_helperText.cshtml")
-@await Html.PartialAsync("./_counterLine.cshtml")
+
+@if (Model.HelperText == null && Model.HelperError == null)
+{
+    @await Html.PartialAsync("./_counterLine.cshtml")
+}
 

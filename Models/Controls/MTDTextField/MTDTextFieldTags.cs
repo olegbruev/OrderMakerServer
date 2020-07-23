@@ -27,6 +27,7 @@ namespace Mtd.OrderMaker.Server.Models.Controls.MTDTextField
         public string HelperError { get; set; }
         public bool HelperErrorLocalizer { get; set; }
         public string Type { get; set; }
+        public string Step { get; set; }
         public int MaxLength { get; set; }
         public string Class { get; set; }
         public MTDTextFieldViews MTDTexFieldView { get; set; }

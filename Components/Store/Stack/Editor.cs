@@ -74,6 +74,7 @@ namespace Mtd.OrderMaker.Server.Components.Store.Stack
 
                 string idSelected = null;
                 if (mtdStoreStack.MtdStoreLink != null) { idSelected = mtdStoreStack.MtdStoreLink.MtdStore; }
+                
                 ViewData[field.Id] = new SelectList(dataList, "Id", "Name", idSelected);
             }
 

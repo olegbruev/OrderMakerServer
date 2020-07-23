@@ -12,31 +12,39 @@
     }
 
 }
+    <div class="mdc-form-field">
 
-<label id="@Model.Id" class="@mainClass">
 
-    @await Html.PartialAsync("./_iconLeading.cshtml")
-    
-    <input id="@Model.IdInput" class="mdc-text-field__input @Model.Class" type="@Model.Type" aria-labelledby="@Model.IdLabel" 
-           name="@Model.Name"
-           value="@Model.Value"
-           aria-controls="@Model.IdHelper"
-           aria-describedby="@Model.IdHelper"
-           placeholder="@Model.Placeholder"
-           maxlength="@Model.MaxLength"           
-           pattern="@Model.Pattern"
-           mtd-data-message="@Model.MtdDataMessage"
-           @if (Model.MtdInputClicker) { <text> mtd-input-clicker </text>}
-           @Model.RDAttribute
-           >
+        <label id="@Model.Id" class="@mainClass">
 
-    @await Html.PartialAsync("./_label.cshtml")
+            @await Html.PartialAsync("./_iconLeading.cshtml")
 
-    @await Html.PartialAsync("./_iconTrailing.cshtml")
+            <input id="@Model.IdInput" class="mdc-text-field__input @Model.Class"
+                   type="@Model.Type"
+                   aria-labelledby="@Model.IdLabel"
+                   name="@Model.Name"
+                   value="@Model.Value"
+                   aria-controls="@Model.IdHelper"
+                   aria-describedby="@Model.IdHelper"
+                   placeholder="@Model.Placeholder"
+                   maxlength="@Model.MaxLength"
+                   pattern="@Model.Pattern"
+                   mtd-data-message="@Model.MtdDataMessage"
+                   @if (Model.Step != string.Empty) { <text> step="@Model.Step" </text> }
+                   @if (Model.MtdInputClicker) { <text> mtd-input-clicker </text> }
+                   @Model.RDAttribute />
 
-    <span class="mdc-line-ripple"></span>
-</label>
+            @await Html.PartialAsync("./_label.cshtml")
 
-@await Html.PartialAsync("./_helperText.cshtml")
-@await Html.PartialAsync("./_counterLine.cshtml")
+            @await Html.PartialAsync("./_iconTrailing.cshtml")
 
+            <span class="mdc-line-ripple"></span>
+        </label>
+
+        @await Html.PartialAsync("./_helperText.cshtml")
+
+        @if (Model.HelperText == null && Model.HelperError == null)
+        {
+            @await Html.PartialAsync("./_counterLine.cshtml")
+        }
+    </div>

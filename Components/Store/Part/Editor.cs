@@ -38,9 +38,9 @@ namespace Mtd.OrderMaker.Server.Components.Store.Part
                 Fields = model.Fields.Where(x => x.MtdFormPart == part.Id && x.ReadOnly == 0).OrderBy(x => x.Sequence).ToList()
             };
 
-            string viewName = part.MtdSysStyle == 5 ? "Columns" : "Rows";
-                                   
-            return View(viewName,warehouse);
+            //string viewName = part.MtdSysStyle == 5 ? "Columns" : "Rows";
+            
+            return View("Rows",warehouse);
         }
     }
 }

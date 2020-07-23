@@ -5,11 +5,11 @@
 {
     @if (Model.MTDTexFieldView ==  MTDTextFieldViews.Default)
     {
-        <span class="mdc-floating-label" id="@Model.IdLabel">@Model.Label</span>
+    <span class="mdc-floating-label" id="@Model.IdLabel">&nbsp;@Model.Label&nbsp;</span>
     } else
     {
         <span class="mdc-notched-outline__notch">
-            <span class="mdc-floating-label" id="@Model.IdLabel">@Model.Label</span>
+            <span class="mdc-floating-label" id="@Model.IdLabel">&nbsp;@Model.Label&nbsp;</span>
         </span>
     }
 

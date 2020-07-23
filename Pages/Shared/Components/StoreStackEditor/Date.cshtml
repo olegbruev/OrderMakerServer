@@ -34,27 +34,42 @@
     }
 }
 
-@switch (ViewBag.TypeStyle)
-{
-    case "Columns":
-        <div class="mtd-store-edit-col-root">
+
+@await Component.InvokeAsync(typeof(MTDTextField), new MTDTextFieldTags
+    {
+        Id = Model.MtdFormPartFieldNavigation.Id,
+        Name = Model.MtdFormPartFieldNavigation.Id,
+        Label = Model.MtdFormPartFieldNavigation.Name,
+        Value = @dateValue,
+        HelperText = Model.MtdFormPartFieldNavigation.Description,
+        Required = Model.MtdFormPartFieldNavigation.Required == 1,
+        IconLeading = "far fa-calendar-alt",
+        Class = " mtd-data-datepicker ",
+        MTDTexFieldView = MTDTextFieldViews.Outlined
+    })
+
+
+@*@switch (ViewBag.TypeStyle)
+    {
+        case "Columns":
+            <div class="mtd-store-edit-col-root">
+                <div class="mtd-ui-material-form">
+                    <input @if (@Model.MtdFormPartFieldNavigation.Required == 1) { <text> required </text> }
+                           class="mtd-data-datepicker" type="text" id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id" value="@dateValue" />
+                    <label mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="@Model.MtdFormPartFieldNavigation.Id" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
+                    <i class="mtd-ui-text-bottom"></i>
+                </div>
+            </div>
+            break;
+        default:
             <div class="mtd-ui-material-form">
-                <input @if (@Model.MtdFormPartFieldNavigation.Required == 1) {<text>required </text>}
-                       class="mtd-data-datepicker" type="text" id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id" value="@dateValue" />
+                <input @if (@Model.MtdFormPartFieldNavigation.Required == 1) { <text> required</text>}
+                       type="text" class="mtd-data-datepicker" id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id" value="@dateValue" />
                 <label mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="@Model.MtdFormPartFieldNavigation.Id" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
                 <i class="mtd-ui-text-bottom"></i>
             </div>
-        </div>
-        break;
-    default:
-        <div class="mtd-ui-material-form">
-            <input @if (@Model.MtdFormPartFieldNavigation.Required == 1) {<text>required</text>}  
-                   type="text" class="mtd-data-datepicker" id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id" value="@dateValue" />
-            <label  mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="@Model.MtdFormPartFieldNavigation.Id" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
-            <i class="mtd-ui-text-bottom"></i>
-        </div>
-        break;
+            break;
 
-}
+    }*@
 
 

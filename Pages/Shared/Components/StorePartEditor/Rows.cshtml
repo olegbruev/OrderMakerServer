@@ -19,9 +19,15 @@
 
 @model Models.Store.Warehouse
 
-<div class="mtd-store-edit-row-wrap">
-    @foreach (var field in Model.Fields)
+<div class="mtd-store-edit-rows">
+    @foreach (var field in Model.Fields.Where(x => x.MtdSysType != 11))
     {
         @await Component.InvokeAsync("StoreStackEditor", new { field = field, warehouse = Model })
     }
+
+    @foreach (var field in Model.Fields.Where(x => x.MtdSysType == 11))
+    {
+        @await Component.InvokeAsync("StoreStackEditor", new { field = field, warehouse = Model })
+    }
+
 </div>

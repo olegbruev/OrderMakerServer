@@ -5,6 +5,10 @@
 {
     <div id="@Model.Id-helper-text" class="mdc-text-field-helper-line">
         <div class="mdc-text-field-helper-text" id="@Model.IdHelper" aria-hidden="true">@Model.HelperText</div>
+        @if (Model.Counter)
+        {
+            <div class="mdc-text-field-character-counter">0 / @Model.MaxLength</div>
+        }
     </div>
 }
 
@@ -12,5 +16,9 @@
 {
     <div id="@Model.Id-helper-error" class="mdc-text-field-helper-line">
         <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg" id="@Model.IdHelperError" aria-hidden="true">@Model.HelperError</div>
+        @if (Model.Counter)
+        {
+            <div class="mdc-text-field-character-counter">0 / @Model.MaxLength</div>
+        }
     </div>
 }

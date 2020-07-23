@@ -80,12 +80,13 @@ namespace Mtd.OrderMaker.Web.Controllers.Index
             var form = await Request.ReadFormAsync();            
             string formId = form["form-id"];
 
-            var user = await _userHandler.GetUserAsync(User);
+            
+
+            var user = await _userHandler.GetUserAsync(User);               
             List<MtdFormPart> partIds = await _userHandler.GetAllowPartsForView(user, formId);
+            if (partIds == null) { return NotFound(); }
 
             FilterHandler handlerFilter = new FilterHandler(_context, formId, user, _userHandler);
-            //MtdFilter mtdFilter = await handlerFilter.GetFilterAsync();
-            //if (mtdFilter == null) return NotFound();
             Incomer incomer = await handlerFilter.GetIncomerDataAsync();
           
             TypeQuery typeQuery = await handlerFilter.GetTypeQueryAsync(user);

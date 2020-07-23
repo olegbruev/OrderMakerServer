@@ -20,25 +20,39 @@
 @model MtdStoreStack
 
 
+
+@await Component.InvokeAsync(typeof(MTDSelectList), new MTDSelectListTags
+    {
+        Id = Model.MtdFormPartField,
+        Label = Model.MtdFormPartFieldNavigation.Name,
+        MTDSelectListView = MTDSelectListViews.Outlined,
+        Items = new List<MTDSelectListItem>() { new MTDSelectListItem { Id = "sdf", Value = "gdfG" }, new MTDSelectListItem { Id = "sdf", Value = "gdfG4444444444" } }
+
+    })
+
 <input id="@Model.MtdFormPartField-datalink" name="@Model.MtdFormPartField-datalink" type="text" hidden />
-@switch (ViewBag.TypeStyle)
-{
-    case "Columns":
-        <div class="mtd-store-edit-col-root">
+
+<div style="height: 8px;"></div>
+
+
+@*@switch (ViewBag.TypeStyle)
+    {
+        case "Columns":
+            <div class="mtd-store-edit-col-root">
+                <div class="mtd-ui-material-form">
+                    @Html.DropDownList(Model.MtdFormPartField, ViewData[Model.MtdFormPartField] as SelectList, new { DataLink = Model.MtdFormPartField })
+                    <label mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="select" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
+                    <i class="mtd-ui-text-bottom"></i>
+                </div>
+            </div>
+            break;
+        default:
             <div class="mtd-ui-material-form">
                 @Html.DropDownList(Model.MtdFormPartField, ViewData[Model.MtdFormPartField] as SelectList, new { DataLink = Model.MtdFormPartField })
                 <label mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="select" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
                 <i class="mtd-ui-text-bottom"></i>
             </div>
-        </div>
-        break;
-    default:
-        <div class="mtd-ui-material-form">
-            @Html.DropDownList(Model.MtdFormPartField, ViewData[Model.MtdFormPartField] as SelectList, new { DataLink = Model.MtdFormPartField })
-            <label mtd-info="@Model.MtdFormPartFieldNavigation.Description" for="select" class="mtd-ui-text-label">@Model.MtdFormPartFieldNavigation.Name</label>
-            <i class="mtd-ui-text-bottom"></i>
-        </div>
-        break;
-}
+            break;
+    }*@
 
 
