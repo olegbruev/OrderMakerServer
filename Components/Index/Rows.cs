@@ -59,13 +59,13 @@ namespace Mtd.OrderMaker.Server.Components.Index
             Incomer incomer = await handlerFilter.GetIncomerDataAsync();
             TypeQuery typeQuery = await handlerFilter.GetTypeQueryAsync(user);
             OutFlow outFlow = await handlerFilter.GetStackFlowAsync(incomer, typeQuery);
-            IList<MtdStore> mtdStore = outFlow.MtdStores;
+            IList<MtdStore> mtdStores = outFlow.MtdStores;
 
             decimal count = (decimal)outFlow.Count / incomer.PageSize;
             pageCount = Convert.ToInt32(Math.Ceiling(count));
             pageCount = pageCount == 0 ? 1 : pageCount;
 
-            IList<string> storeIds = mtdStore.Select(s => s.Id).ToList();
+            IList<string> storeIds = mtdStores.Select(s => s.Id).ToList();
             IList<string> fieldIds = fieldIds = incomer.FieldForColumn.Select(x => x.Id).ToList();
 
             IList<string> allowFiieldIds = await _context.MtdFormPartField.Where(x => partIds.Contains(x.MtdFormPart)).Select(x => x.Id).ToListAsync();
@@ -83,13 +83,15 @@ namespace Mtd.OrderMaker.Server.Components.Index
             var mtdFormList = await ApprovalHandler.GetWaitStoreIds(_context, user, formId);
             int pending = mtdFormList.Count();
 
+            List<MtdFormPartField> rowFields = incomer.FieldForColumn.Where(x => fieldIds.Contains(x.Id)).ToList();
+         
             RowsModelView rowsModel = new RowsModelView
             {
                 FormId = formId,
                 SearchNumber = incomer.SearchNumber,
                 PageCount = pageCount,
-                MtdFormPartFields = incomer.FieldForColumn.Where(x => fieldIds.Contains(x.Id)).ToList(),
-                MtdStores = mtdStore,
+                MtdFormPartFields = rowFields,
+                MtdStores = mtdStores,
                 MtdStoreStack = mtdStoreStack,
                 WaitList = incomer.WaitList == 1,
                 ShowDate = await handlerFilter.IsShowDate(),
@@ -101,8 +103,7 @@ namespace Mtd.OrderMaker.Server.Components.Index
                 Pending = pending,
                 IsCreator = await _userHandler.IsCreator(user, formId),
                 PageSize = filter.PageSize,
-                PageCurrent = filter.Page,
-                
+                PageCurrent = filter.Page,                
             };
 
             return View("Default", rowsModel);

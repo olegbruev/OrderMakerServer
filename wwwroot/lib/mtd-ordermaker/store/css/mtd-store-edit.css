@@ -236,9 +236,11 @@
   padding-top: 8px;
 }
 .mtd-store-edit-part {
-  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
   margin-bottom: 4px;
-  padding: 16px;
+  padding: 4px;
   text-transform: uppercase;
   font-size: small;
   font-weight: bold;

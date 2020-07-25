@@ -24,18 +24,18 @@
     if (Model.MtdStoreStackInt.Register == 1) { result = "checked"; }
 }
 
-<div class="mtd-store-edit-item">
-    <div mtd-info="@Model.MtdFormPartFieldNavigation.Description" class="mtd-store-edit-row-name">
-        @Model.MtdFormPartFieldNavigation.Name
-    </div>
-    <div class="mtd-store-edit-row-value">
-        <div class="mtd-ui-material-check">
-            <input type="checkbox" @result id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id"
-                   value=@result />
-            <label for="@Model.MtdFormPartFieldNavigation.Id"></label>
-        </div>
+
+<div mtd-info="@Model.MtdFormPartFieldNavigation.Description" class="mtd-store-edit-row-name">
+    @Model.MtdFormPartFieldNavigation.Name
+</div>
+<div class="mtd-store-edit-row-value">
+    <div class="mtd-ui-material-check">
+        <input type="checkbox" @result id="@Model.MtdFormPartFieldNavigation.Id" name="@Model.MtdFormPartFieldNavigation.Id"
+               value=@result />
+        <label for="@Model.MtdFormPartFieldNavigation.Id"></label>
     </div>
 </div>
+
 
 
 

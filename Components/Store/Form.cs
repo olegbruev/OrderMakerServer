@@ -86,7 +86,6 @@ namespace Mtd.OrderMaker.Server.Components.Store
                 {
                     bool isEditor = await _userHandler.IsEditorPartAsync(webAppUser, formPart.Id);
                     if (isEditor && !blockedParts.Contains(formPart.Id)) { mtdFormParts.Add(formPart); }
-
                 }
                 else
                 {
@@ -105,7 +104,6 @@ namespace Mtd.OrderMaker.Server.Components.Store
                 .ThenInclude(m => m.ParentNavigation)
                 .FirstOrDefaultAsync(m => m.Id == store.Id);
 
-
             IList<long> ids = await _context.MtdStoreStack.Where(x => x.MtdStore == mtdStore.Id).Select(x => x.Id).ToListAsync();
 
             IList<MtdStoreStack> stack = await _context.MtdStoreStack
@@ -123,6 +121,7 @@ namespace Mtd.OrderMaker.Server.Components.Store
                 var listIds = stack.Where(x => x.MtdFormPartFieldNavigation != null)
                     .Select(x => x.MtdFormPartFieldNavigation.MtdFormPart)
                     .GroupBy(x => x).Select(x => x.Key).ToList();
+
                 mtdFormParts = mtdFormParts.Where(x => listIds.Contains(x.Id)).ToList();
 
                 List<MtdFormPart> nullParts = new List<MtdFormPart>();
@@ -147,10 +146,7 @@ namespace Mtd.OrderMaker.Server.Components.Store
                     {
                         nullParts.Add(part);                        
                     }
-
-
                 }
-
 
                 foreach (MtdFormPart nullPart in nullParts)
                 {
@@ -168,16 +164,14 @@ namespace Mtd.OrderMaker.Server.Components.Store
                 Parts = mtdFormParts,
                 Fields = mtdFormPartFields,
                 Stack = stack,
-                SetDate = await _userHandler.CheckUserPolicyAsync(webAppUser, store.MtdForm,RightsType.SetDate)                
+                SetDate = await _userHandler.CheckUserPolicyAsync(webAppUser, store.MtdForm, RightsType.SetDate)                
             };
 
             return result;
         }
 
-
         public async Task<IViewComponentResult> InvokeAsync(MtdStore store, FormType type = FormType.Details)
         {
-
             if (store == null)
             {
                 return View();
@@ -214,15 +208,32 @@ namespace Mtd.OrderMaker.Server.Components.Store
                 return View("Create", warehouse);
             }
 
+            
+            Warehouse dataMain = await CreateWarehouseAsync(store, type);
+
+            List<DataLink> dataLinks = new List<DataLink>();
+
+            List<MtdFormPartField> fields = dataMain.Fields.Where(x => x.MtdSysType == 11).ToList();
+            if (fields != null && fields.Count > 0)
+            {         
+                foreach (var field in fields)
+                {
+                    MtdStoreStack stack = dataMain.Stack.Where(z => z.MtdStore == store.Id && z.MtdFormPartField == field.Id).FirstOrDefault();
+                    string storeId = stack.MtdStoreLink.MtdStore;
+                    MtdStore storeLink = await _context.MtdStore.FindAsync(storeId);
+                    Warehouse dataLink = await CreateWarehouseAsync(storeLink, type);
+                    dataLinks.Add(new DataLink { PartId = field.MtdFormPartNavigation.Id, Data = dataLink });
+                }
+            }
+
             DataContainer dataContainer = new DataContainer
             {
-                Owner = await CreateWarehouseAsync(store, type),
-                Parent = await CreateWarehouseAsync(store.ParentNavigation)
+                Owner = dataMain,
+                Parent = await CreateWarehouseAsync(store.ParentNavigation),
+                Links = dataLinks
             };
 
             return View(type.ToString(), dataContainer);
         }
-
-
     }
 }

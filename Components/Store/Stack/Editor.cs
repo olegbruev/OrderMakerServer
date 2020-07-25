@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Mtd.OrderMaker.Server.Entity;
 using Mtd.OrderMaker.Server.EntityHandler.Approval;
+using Mtd.OrderMaker.Server.Models.Controls.MTDSelectList;
 using Mtd.OrderMaker.Server.Models.Store;
 using System;
 using System.Collections.Generic;
@@ -74,8 +75,15 @@ namespace Mtd.OrderMaker.Server.Components.Store.Stack
 
                 string idSelected = null;
                 if (mtdStoreStack.MtdStoreLink != null) { idSelected = mtdStoreStack.MtdStoreLink.MtdStore; }
-                
-                ViewData[field.Id] = new SelectList(dataList, "Id", "Name", idSelected);
+
+                var items = new List<MTDSelectListItem>();
+                dataList.ToList().ForEach((item) =>
+                {
+                    items.Add(new MTDSelectListItem { Id = item.Id, Value = item.Name, Selectded = item.Id == idSelected });
+                });
+
+                // ViewData[field.Id] = new SelectList(dataList, "Id", "Name", idSelected);
+                ViewData[field.Id] = items;
             }
 
             ViewData["TypeStyle"] = field.MtdFormPartNavigation.MtdSysStyle == 5 ? "Columns" : "Rows";
@@ -166,7 +174,7 @@ namespace Mtd.OrderMaker.Server.Components.Store.Stack
                         viewName = "Link";
                         if (mtdStoreStack.MtdStoreStackText.Register != null) { break; }
                         mtdStoreStack.MtdStoreStackText.Register = field.DefaultData;
-                        break;                        
+                        break;
                     }
                 default:
                     {

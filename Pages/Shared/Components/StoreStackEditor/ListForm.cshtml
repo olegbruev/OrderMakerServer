@@ -20,20 +20,19 @@
 @model MtdStoreStack
 
 
-
 @await Component.InvokeAsync(typeof(MTDSelectList), new MTDSelectListTags
-    {
-        Id = Model.MtdFormPartField,
-        Label = Model.MtdFormPartFieldNavigation.Name,
-        MTDSelectListView = MTDSelectListViews.Outlined,
-        Items = new List<MTDSelectListItem>() { new MTDSelectListItem { Id = "sdf", Value = "gdfG" }, new MTDSelectListItem { Id = "sdf", Value = "gdfG4444444444" } }
-
-    })
+{
+    Id = Model.MtdFormPartField,
+    Name = Model.MtdFormPartField,
+    Label = Model.MtdFormPartFieldNavigation.Name,
+    MTDSelectListView = MTDSelectListViews.Outlined,
+    Items = (List<MTDSelectListItem>) ViewData[Model.MtdFormPartField]
+    
+})
 
 <input id="@Model.MtdFormPartField-datalink" name="@Model.MtdFormPartField-datalink" type="text" hidden />
 
 <div style="height: 8px;"></div>
-
 
 @*@switch (ViewBag.TypeStyle)
     {

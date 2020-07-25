@@ -213,6 +213,32 @@ const selectFields = document.querySelectorAll(".mdc-select");
 selectFields.forEach((selectField) => {
     new MTDSelectList(selectField.id)
 });
+
+const toggleParts = document.querySelectorAll("[mtd-button-toggle]");
+
+toggleParts.forEach((button) => {
+
+    button.addEventListener("click", () => {
+        const id = button.getAttribute("mtd-button-toggle");
+        const parts = document.querySelectorAll(`[mtd-div-toggle='${id}']`);
+        parts.forEach((part) => {
+            part.classList.toggle("mtd-main-display-none");
+        });        
+    });
+});
+
+const PartsOpenAll = () => {
+    toggleParts.forEach((button) => {
+        button.classList.remove("mdc-icon-button--on");
+        const id = button.getAttribute("mtd-button-toggle");
+        const parts = document.querySelectorAll(`[mtd-div-toggle='${id}']`);
+        parts.forEach((part) => {
+            part.classList.remove("mtd-main-display-none");
+       
+        });
+    });
+}
+
     //document.addEventListener("keydown", (e) => {
     //    if (e.keyCode == 13) {
     //        event.preventDefault();

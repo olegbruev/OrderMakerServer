@@ -27,7 +27,7 @@
     <div class="mtd-store-style-blank mdc-elevation--z2">
         <div class="mtd-store-edit-bar" style="text-align: right">
             <div class="mtd-store-edit-control" style="position:absolute">
-                <button type="button" mtd-data-clicker mtd-data-location="/workplace/store/details?id=@Model.Owner.Store.Id" class="mdc-fab mdc-fab--extended" aria-label="Save">
+                <button onclick="PartsOpenAll()" type="button" mtd-data-clicker mtd-data-location="/workplace/store/details?id=@Model.Owner.Store.Id" class="mdc-fab mdc-fab--extended" aria-label="Save">
                     <div class="mdc-fab__ripple"></div>
                     <span class="material-icons mdc-fab__icon">save</span>
                     <span class="mdc-fab__label">@Localizer["Save"]</span>
@@ -70,16 +70,16 @@
                     {
 
                         @await Component.InvokeAsync(typeof(MTDTextField), new MTDTextFieldTags
-                           {
-                               Id = "date-create",
-                               Name = "date-create",
-                               Value = @Model.Owner.Store.Timecr.ToShortDateString(),
-                               Class = "mtd-data-datepicker",
-                               MTDTexFieldView = MTDTextFieldViews.Outlined,
-                               Label = "Date",
-                               LabelLocalized = true,
+                   {
+                       Id = "date-create",
+                       Name = "date-create",
+                       Value = @Model.Owner.Store.Timecr.ToShortDateString(),
+                       Class = "mtd-data-datepicker",
+                       MTDTexFieldView = MTDTextFieldViews.Outlined,
+                       Label = "Date",
+                       LabelLocalized = true,
 
-                           });                  
+                   });
                     }
                     else
                     {
@@ -88,19 +88,34 @@
                 }
             </div>
         </div>
-           
+
         <div>
+
+            @{ string partId = Guid.NewGuid().ToString(); }
 
             @foreach (var part in Model.Owner.Parts)
             {
                 if (part.Title == 1)
                 {
+                    partId = part.Id;
                     <div class="mtd-store-edit-part">
-                        @part.Name
+                        <div style="flex-grow:1">
+                            @part.Name
+                        </div>
+
+                        <div>
+                            <button mtd-button-toggle="@partId" class="mdc-icon-button" type="button">
+                                <div class="mdc-button__ripple"></div>
+                                <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">add_box</i>
+                                <i class="material-icons mdc-icon-button__icon">indeterminate_check_box</i>
+                            </button>
+                        </div>
                     </div>
                 }
 
-                @await Component.InvokeAsync("StorePartEditor", new { part = part, model = Model.Owner })
+                <div mtd-div-toggle="@partId">
+                    @await Component.InvokeAsync("StorePartEditor", new { part = part, model = Model.Owner })
+                </div>
             }
         </div>
     </div>

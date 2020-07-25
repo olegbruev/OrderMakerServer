@@ -92,6 +92,31 @@
         { <div class="mtd-store-style-separator"></div>}
 
         @await Component.InvokeAsync("StorePartViewer", new { part = part, model = Model.Owner })
+
+        bool linkTrue = Model.Links.Where(x => part.Id.Contains(x.PartId)).Any();
+
+        if (linkTrue)
+        {
+            var ps = Model.Links.Where(x => part.Id.Contains(x.PartId)).ToList();
+
+            @foreach (var p in ps)
+            {                
+                @foreach (var partLink in p.Data.Parts)
+                {
+                    if(partLink.Child == 0) { continue; }
+                    if (partLink.Title == 1)
+                    {
+                        <div class="mtd-store-style-part">
+                            @partLink.Name
+                        </div>
+                    }
+                    else
+                    { <div class="mtd-store-style-separator"></div>}
+
+                    @await Component.InvokeAsync("StorePartViewer", new { part = partLink, model = p.Data })
+                }
+            }
+        }
     }
 
 </div>

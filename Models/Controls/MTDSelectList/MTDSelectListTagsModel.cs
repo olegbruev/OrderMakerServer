@@ -12,6 +12,7 @@ namespace Mtd.OrderMaker.Server.Models.Controls.MTDSelectList
         public string IdHelper { get; set; }
         public string IdLabel { get; set; }
         public string IdSelectedText { get; set; }
+        public string IdDataLink { get; set; }
 
         public MTDSelectListTagsModel(MTDSelectListTags tags)
         {
@@ -19,7 +20,7 @@ namespace Mtd.OrderMaker.Server.Models.Controls.MTDSelectList
             this.Name = tags.Name;
             this.Label = tags.Label;
             this.LabelLocalized = tags.LabelLocalized;
-            this.ValueId = tags.ValueId;    
+            this.ValueId = tags.ValueId;           
             this.Items = tags.Items ?? new List<MTDSelectListItem>();
             this.MTDSelectListView = tags.MTDSelectListView;
 
@@ -27,6 +28,7 @@ namespace Mtd.OrderMaker.Server.Models.Controls.MTDSelectList
             this.IdInput = $"{Id}-input";
             this.IdLabel = $"{Id}-label";
             this.IdSelectedText = $"{Id}-selected-text";
+            this.IdDataLink = $"{Id}-datalink";
 
         }
     }

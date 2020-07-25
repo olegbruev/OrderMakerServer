@@ -38,7 +38,7 @@
     }
 
     <div class="mtd-store-view-row-wrap">
-        @foreach (var field in Model.Fields.Where(x => x.MtdSysType != 8))
+        @foreach (var field in Model.Fields.Where(x => x.MtdSysType != 8 && x.MtdSysType != 11))
         {
             @await Component.InvokeAsync("StoreStackViewer", new { field = field, warehouse = Model })
         }
