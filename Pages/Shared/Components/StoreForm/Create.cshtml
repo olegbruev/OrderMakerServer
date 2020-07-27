@@ -42,13 +42,7 @@
             </button>
         </div>
     </div>
-    @*<div class="mtd-store-edit-bar">
-            <div class="mtd-store-edit-control">
-                <div class="mtd-ui-material-submit">
-                    <button id="store-create-button" type="button">@Localizer["Save"]</button>
-                </div>
-            </div>
-        </div>*@
+
     @if (Model.Store.MtdFormNavigation.ParentNavigation != null)
     {
 
@@ -109,11 +103,20 @@
                 <span class="mtd-store-style-number" style="opacity:0.3">№ @Model.Store.Sequence.ToString("D9")</span>
                 <hr />
                 @if (Model.Store.MtdFormNavigation.VisibleDate == 1)
-                {                   
+                {
                     if (Model.SetDate)
                     {
-
-                        <input type="text" class="mtd-data-datepicker" value="@DateTime.Now.ToShortDateString()" name="date-create" />
+                        @await Component.InvokeAsync(typeof(MTDTextField), new MTDTextFieldTags
+                           {
+                               Id = "date-create",
+                               Name = "date-create",
+                               Value = DateTime.Now.ToShortDateString(),
+                               Class = "mtd-data-datepicker",
+                               MTDTexFieldView = MTDTextFieldViews.Outlined,
+                               Label = "Date",
+                               LabelLocalized = true,
+                           });
+                        @*<input type="text" class="mtd-data-datepicker" value="@DateTime.Now.ToShortDateString()" name="date-create" />*@
                     }
                     else
                     {

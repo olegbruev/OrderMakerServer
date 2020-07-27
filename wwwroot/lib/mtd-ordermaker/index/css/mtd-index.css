@@ -295,8 +295,8 @@ th:not(:first-child) {
   display: none;
 }
 #dialog-filter-column {
-  top: -64px;
-  max-width: 1024px;
+  top: -156px;
+  margin-bottom: 18px;
 }
 .mtd-index-modal {
   background-color: white;

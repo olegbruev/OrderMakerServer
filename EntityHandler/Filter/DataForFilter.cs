@@ -71,28 +71,6 @@ namespace Mtd.OrderMaker.Server.EntityHandler.Filter
                 {                                     
                    storeIds = i==0 ? await FindStoreIdsForText(fieldsIds, words[i], 4) : await FindStoreIdsForText(fieldsIds, words[i], 4, storeIds);                                       
                 }
-                ///*Complex search*/
-                    //for (int i = 0; i < words.Count(); i++)
-                    //{
-                    //    IList<string> tempIds;
-
-                    //    if (words[i] != "+")
-                    //    {
-                    //        if (i > 0 && words[i - 1] == "+")
-                    //        {
-                    //            storeIds = await FindStoreIdsForText(fieldsIds, words[i], 4, storeIds);
-                    //        }
-                    //        else
-                    //        {
-                    //            tempIds = await FindStoreIdsForText(fieldsIds, words[i], 4);
-                    //            foreach (var id in tempIds)
-                    //            {
-                    //                if (!storeIds.Where(x => x == id).Any()) { storeIds.Add(id); }
-                    //            }
-                    //        }
-
-                    //    }
-                    //}
             }
             else {
                 storeIds = await FindStoreIdsForText(fieldsIds, incomer.SearchText, 4);

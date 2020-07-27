@@ -31,8 +31,28 @@
             <div>
                 <button mtd-dialog-cancel class="mdc-icon-button material-icons">close</button>
             </div>
-        </div>        
+        </div>
         <div class="mtd-dialog-content">
+
+            <form id="indexFormColumn" method="post" action="/api/index/filter/columns/add" enctype="multipart/form-data" style="width: 100%" autocomplete='off'>
+                @Html.AntiForgeryToken()
+                <input type="text" name="form-id" value="@Model.FormId" hidden />
+                <input type="text" id="indexDataColumnList" name="indexDataColumnList" value="@Model.FormId" hidden />
+                <input type="text" id="indexDataColumnNumber" name="indexDataColumnNumber" value="@Model.ShowNumber" hidden />
+                <input type="text" id="indexDataColumnDate" name="indexDataColumnDate" value="@Model.ShowDate" hidden />
+
+                <div style="text-align:left; padding:12px 0 8px 0;">
+                    <button id="indexButtonColApply" mtd-dialog-cancel type="button" class="mdc-button mdc-button--raised mdc-theme--secondary-bg">
+                        <div class="mdc-button__ripple"></div>
+                        <span class="mdc-button__label">@Localizer["Apply"]</span>
+                    </button>
+                    <button mtd-dialog-cancel class="mdc-button" type="button">
+                        <div class="mdc-button__ripple"></div>
+                        <span class="mdc-button__label">@Localizer["Cancel"]</span>
+                    </button>
+                </div>
+            </form>
+            <div class="mtd-dialog-space"></div>
             <div class="mtd-dialog-space"></div>
             <div style="display: flex; padding: 8px; border: 1px solid lightgray; position:relative">
                 <span style="position: absolute; background-color: white; top: -12px; padding: 0 8px 0 8px;">@Localizer["Service fields"]</span>
@@ -72,60 +92,46 @@
             <div class="mtd-dialog-space"></div>
             <div style="padding: 8px; border: 1px solid lightgray; position: relative">
                 <span style="position: absolute; background-color: white; top: -12px; padding: 0 8px 0 8px;">@Localizer["Custom fields"]</span>
-                <div style="max-height: 450px; overflow-y:auto;">
-                    <ul id="indexListColumn" mtd-data-draggable class="mdc-list mtd-density-list" role="group" aria-label="List with checkbox items">
+                <div>
+                    <ul id="indexListColumn" mtd-data-draggable class="mdc-list  mdc-list--two-line" role="group" aria-label="List with checkbox items">
 
                         @foreach (var field in Model.ColumnItems)
                         {
-
-                        <li id="@field.FieldId-licol" class="mdc-list-item" draggable="true" role="checkbox" aria-checked="@field.IsChecked.ToString().ToLower()"
-                            data-value="@field.FieldId"
-                            data-part="@field.PartId" onclick="OnClickFilterColumn(event)">
-                            <span class="mdc-list-item__ripple"></span>
-                            <span class="mdc-list-item__graphic">
-                                <div class="mdc-checkbox mdc-checkbox--disabled">
-                                    <input type="checkbox"
-                                           class="mdc-checkbox__native-control"
-                                           id="@field.FieldId-lc" @if (field.IsChecked) { <text> checked</text> } />
-                                    <div class="mdc-checkbox__background">
-                                        <svg class="mdc-checkbox__checkmark"
-                                             viewBox="0 0 24 24">
-                                            <path class="mdc-checkbox__checkmark-path"
-                                                  fill="none"
-                                                  d="M1.73,12.91 8.1,19.28 22.79,4.59" />
-                                        </svg>
-                                        <div class="mdc-checkbox__mixedmark"></div>
+                            <li id="@field.FieldId-licol" class="mdc-list-item" draggable="true" role="checkbox" aria-checked="@field.IsChecked.ToString().ToLower()"
+                                data-value="@field.FieldId"
+                                data-part="@field.PartId" onclick="OnClickFilterColumn(event)">
+                                <span class="mdc-list-item__ripple"></span>
+                                <span class="mdc-list-item__graphic">
+                                    <div class="mdc-checkbox mdc-checkbox--disabled">
+                                        <input type="checkbox"
+                                               class="mdc-checkbox__native-control"
+                                               id="@field.FieldId-lc" @if (field.IsChecked) { <text> checked</text> } />
+                                        <div class="mdc-checkbox__background">
+                                            <svg class="mdc-checkbox__checkmark"
+                                                 viewBox="0 0 24 24">
+                                                <path class="mdc-checkbox__checkmark-path"
+                                                      fill="none"
+                                                      d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                            </svg>
+                                            <div class="mdc-checkbox__mixedmark"></div>
+                                        </div>
                                     </div>
+                                </span>
+
+                                <span class="mdc-list-item__text" for="@field-lc">
+                                    <span class="mdc-list-item__primary-text">@field.FieldName</span>
+                                    <span class="mdc-list-item__secondary-text">@field.PartName</span>
+                                </span>
+                                <div style="position: absolute; right: 16px; cursor: all-scroll">
+                                    <i class="material-icons" style="color:gray">drag_handle</i>
                                 </div>
-                            </span>
-                            <label class="mdc-list-item__text" for="@field-lc">@field.PartName: @field.FieldName</label>
-                            <div style="position: absolute; right: 16px; cursor: all-scroll">
-                                <i class="material-icons" style="color:gray">drag_handle</i>
-                            </div>
-                        </li>
+                            </li>
                         }
                     </ul>
                 </div>
             </div>
 
-            <form id="indexFormColumn" method="post" action="/api/index/filter/columns/add" enctype="multipart/form-data" style="width: 100%" autocomplete='off'>
-                @Html.AntiForgeryToken()
-                <input type="text" name="form-id" value="@Model.FormId" hidden />
-                <input type="text" id="indexDataColumnList" name="indexDataColumnList" value="@Model.FormId" hidden />
-                <input type="text" id="indexDataColumnNumber" name="indexDataColumnNumber" value="@Model.ShowNumber" hidden />
-                <input type="text" id="indexDataColumnDate" name="indexDataColumnDate" value="@Model.ShowDate" hidden />
 
-                <div style="text-align:left; padding:12px 0 8px 0;">
-                    <button id="indexButtonColApply" mtd-dialog-cancel type="button" class="mdc-button mdc-button--raised">
-                        <div class="mdc-button__ripple"></div>
-                        <span class="mdc-button__label">@Localizer["Apply"]</span>
-                    </button>
-                    <button mtd-dialog-cancel class="mdc-button" type="button">
-                        <div class="mdc-button__ripple"></div>
-                        <span class="mdc-button__label">@Localizer["Cancel"]</span>
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

@@ -52,7 +52,46 @@ namespace Mtd.OrderMaker.Server.EntityHandler.Stack
                .ToListAsync();
 
             return mtdStoreStack;
-        } 
+        }
+
+        public async Task<MtdForm> GetFormForLinkAsync(MtdFormPartField field)
+        {
+            if (field.MtdSysType != 11) { return null; }
+            string formId = await _context.MtdFormList.Where(x=>x.Id == field.Id).Select(x => x.MtdForm).FirstOrDefaultAsync();
+            return await _context.MtdForm.FindAsync(formId);
+        }
+
+        public async Task<List<MtdFormPart>> GetPartsForLinkAsync(MtdFormPartField field, MtdForm mtdForm = null)
+        {
+            List<MtdFormPart> result = new List<MtdFormPart>();            
+            if (field.MtdSysType != 11) { return result; }
+
+            MtdForm form = mtdForm;
+            if (form == null)
+            {
+                form = await GetFormForLinkAsync(field);
+                if (form == null) { return result; }
+            }
+
+            List<MtdFormPart> parts = await _context.MtdFormPart.Where(x => x.MtdForm == form.Id).ToListAsync();
+            return parts ?? result;
+        }
+
+        public async Task<List<MtdFormPartField>> GetFieldsForLinkAsync(MtdFormPartField field, List<MtdFormPart> formParts = null)
+        {
+            List<MtdFormPartField> result = new List<MtdFormPartField>();
+            if (field.MtdSysType != 11) { return result; }
+            List<MtdFormPart> parts = formParts;
+            if (parts == null)
+            {
+                parts = await GetPartsForLinkAsync(field);
+                if (parts.Count == 0) { return result; }
+            }
+
+            List<string> partIds = parts.Select(x => x.Id).ToList();
+            List<MtdFormPartField> fields = await _context.MtdFormPartField.Where(x => partIds.Contains(x.MtdFormPart)).ToListAsync();
+            return fields ?? result;
+        }
 
     }
 }

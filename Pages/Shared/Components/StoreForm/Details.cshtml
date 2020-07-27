@@ -27,7 +27,6 @@
 }
 
 <div id="block-view" class="mtd-store-style-blank">
-
     <div class="mtd-store-style-header">
         <div class="mtd-store-style-badge">
             @if (Model.Owner.Store.MtdFormNavigation.MtdFormHeader != null)
@@ -52,14 +51,11 @@
             @if (Model.Owner.Store.MtdFormNavigation.VisibleDate == 1)
             {
                 <span class="mtd-store-style-date">@Localizer["Date"] @Model.Owner.Store.Timecr.ToShortDateString()</span>
-
             }
         </div>
-
     </div>
 
-
-    @if (Model.Parent != null)
+    @*@if (Model.Parent != null)
     {
         @foreach (var part in Model.Parent.Parts.Where(x => x.Child == 1).ToList())
         {
@@ -74,9 +70,8 @@
             { <div class="mtd-store-style-separator"></div>}
 
             @await Component.InvokeAsync("StorePartViewer", new { part = part, model = Model.Parent })
-
         }
-    }
+    }*@
 
 
     @foreach (var part in Model.Owner.Parts)

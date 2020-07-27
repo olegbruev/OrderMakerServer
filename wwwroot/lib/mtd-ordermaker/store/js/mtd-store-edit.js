@@ -173,19 +173,6 @@ items.forEach((item) => {
 
 });
 
-document.querySelectorAll('select[datalink]').forEach((datalink) => {
-    const id = datalink.attributes.getNamedItem("datalink").nodeValue;
-    const input = document.getElementById(`${id}-datalink`);
-
-    const dlv = datalink.options[datalink.selectedIndex];
-    if (dlv) {
-        input.value = dlv.textContent;
-        datalink.addEventListener('change', (e) => {
-            document.getElementById(`${id}-datalink`).value = e.target.options[e.target.selectedIndex].textContent;
-        });
-    }
-
-});
 
 const dialog = document.getElementById('dialog-info');
 if (dialog) {
@@ -211,8 +198,13 @@ textFields.forEach((textField) => {
 
 const selectFields = document.querySelectorAll(".mdc-select");
 selectFields.forEach((selectField) => {
-    new MTDSelectList(selectField.id)
+    var select = new MTDSelectList(selectField.id);
+    document.getElementById(`${selectField.id}-datalink`).value = select.selector.selectedText.textContent;
+    select.selector.listen('MDCSelect:change', () => {
+        document.getElementById(`${selectField.id}-datalink`).value = select.selector.selectedText.textContent;
+    });            
 });
+
 
 const toggleParts = document.querySelectorAll("[mtd-button-toggle]");
 
@@ -233,8 +225,7 @@ const PartsOpenAll = () => {
         const id = button.getAttribute("mtd-button-toggle");
         const parts = document.querySelectorAll(`[mtd-div-toggle='${id}']`);
         parts.forEach((part) => {
-            part.classList.remove("mtd-main-display-none");
-       
+            part.classList.remove("mtd-main-display-none");       
         });
     });
 }
